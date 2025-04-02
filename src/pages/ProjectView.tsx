@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -24,6 +25,9 @@ import ProjectTimeline from "@/components/project/ProjectTimeline";
 import ProjectDocuments from "@/components/project/ProjectDocuments";
 import ProjectGallery from "@/components/project/ProjectGallery";
 import ProjectSurvey from "@/components/project/ProjectSurvey";
+
+// Import the SurveyQuestion type to ensure consistency
+import type { SurveyQuestion } from "@/components/project/ProjectSurvey";
 
 // Sample project data (in a real app, this would come from an API)
 const projectsData = [
@@ -78,19 +82,19 @@ const projectsData = [
       questions: [
         { 
           id: 1, 
-          type: "multiple-choice",
+          type: "multiple-choice" as const,
           question: "Which recreational feature would you most like to see added to the waterfront?",
           options: ["Playground", "Walking trails", "Outdoor fitness area", "Water sports facilities"]
         },
         { 
           id: 2, 
-          type: "multiple-choice",
+          type: "multiple-choice" as const,
           question: "How often do you currently visit the waterfront area?",
           options: ["Daily", "Weekly", "Monthly", "Rarely or never"]
         },
         { 
           id: 3, 
-          type: "text",
+          type: "text" as const,
           question: "What specific improvements would make the waterfront more accessible to you?"
         }
       ]

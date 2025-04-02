@@ -6,7 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
-interface SurveyQuestion {
+export interface SurveyQuestion {
   id: number;
   type: "multiple-choice" | "text";
   question: string;
