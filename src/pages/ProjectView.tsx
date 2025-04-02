@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -16,11 +15,12 @@ import {
   FileText, 
   Image, 
   PieChart,
-  ArrowLeft
+  ArrowLeft,
+  HelpCircle
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import ProjectComments from "@/components/project/ProjectComments";
+import ProjectQA from "@/components/project/ProjectQA";
 import ProjectTimeline from "@/components/project/ProjectTimeline";
 import ProjectDocuments from "@/components/project/ProjectDocuments";
 import ProjectGallery from "@/components/project/ProjectGallery";
@@ -327,10 +327,13 @@ const ProjectView = () => {
                 </Tabs>
               </div>
               
-              {/* Comments section */}
+              {/* Questions & Answers section */}
               <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-semibold mb-4">Community Discussion</h2>
-                <ProjectComments projectId={project.id} />
+                <h2 className="text-xl font-semibold mb-4 flex items-center">
+                  <HelpCircle className="h-5 w-5 mr-2 text-toronto-600" />
+                  Questions & Answers
+                </h2>
+                <ProjectQA projectId={project.id} />
               </div>
             </div>
             
@@ -345,8 +348,8 @@ const ProjectView = () => {
                     Support This Project
                   </Button>
                   <Button variant="outline" className="w-full">
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    Join Discussion
+                    <HelpCircle className="h-4 w-4 mr-2" />
+                    Ask a Question
                   </Button>
                   <Button variant="outline" className="w-full">
                     <Share2 className="h-4 w-4 mr-2" />
@@ -408,54 +411,6 @@ const ProjectView = () => {
                     </Button>
                   </li>
                 </ul>
-              </div>
-              
-              {/* Related projects */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="font-semibold mb-3">Related Projects</h3>
-                <div className="space-y-4">
-                  <div className="flex items-start">
-                    <div className="h-14 w-14 rounded overflow-hidden mr-3 flex-shrink-0">
-                      <img 
-                        src="https://images.unsplash.com/photo-1600320402788-00e447d03d85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                        alt="Transportation Plan" 
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm">Sustainable Transportation Plan</h4>
-                      <p className="text-xs text-gray-500">Infrastructure</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="h-14 w-14 rounded overflow-hidden mr-3 flex-shrink-0">
-                      <img 
-                        src="https://images.unsplash.com/photo-1605657781760-934c744ccf3c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                        alt="Community Gardens" 
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm">Community Gardens Initiative</h4>
-                      <p className="text-xs text-gray-500">Environment</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="h-14 w-14 rounded overflow-hidden mr-3 flex-shrink-0">
-                      <img 
-                        src="https://images.unsplash.com/photo-1460317442991-0ec209397118?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
-                        alt="Housing Development" 
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div>
-                      <h4 className="font-medium text-sm">Affordable Housing Development</h4>
-                      <p className="text-xs text-gray-500">Housing</p>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
