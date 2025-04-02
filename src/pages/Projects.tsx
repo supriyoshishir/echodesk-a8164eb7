@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -24,11 +23,24 @@ import {
   ThumbsUp, 
   Search, 
   Calendar, 
-  Filter 
+  Filter,
+  ArrowRight,
+  Info,
+  ExternalLink 
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipProvider, 
+  TooltipTrigger 
+} from "@/components/ui/tooltip";
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+} from "@/components/ui/hover-card";
 
-// Sample project data
 const projectsData = [
   {
     id: 1,
@@ -121,7 +133,6 @@ const Projects = () => {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  // Filter projects based on search and filters
   const filteredProjects = projectsData.filter((project) => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           project.description.toLowerCase().includes(searchTerm.toLowerCase());
@@ -137,142 +148,184 @@ const Projects = () => {
 
   return (
     <Layout>
-      <div className="bg-toronto-50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-4">Explore Projects</h1>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover and participate in urban initiatives shaping the future of our city
-            </p>
-          </div>
-          
-          <div className="bg-white p-6 rounded-xl shadow-sm mb-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="md:col-span-2">
-                <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                  <Input
-                    placeholder="Search projects..."
-                    className="pl-10"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
+      <TooltipProvider>
+        <div className="bg-toronto-50 py-16">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-8">
+              <h1 className="text-4xl font-bold mb-4">Explore Projects</h1>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                Discover and participate in urban initiatives shaping the future of our city
+              </p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl shadow-sm mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div className="md:col-span-2">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      placeholder="Search projects..."
+                      className="pl-10 transition-all duration-300 focus:ring-2 focus:ring-toronto-200"
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                    <SelectTrigger className="transition-all duration-300 hover:border-toronto-300">
+                      <SelectValue placeholder="Filter by category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Categories</SelectItem>
+                      {categories.map((category) => (
+                        <SelectItem key={category} value={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div>
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger className="transition-all duration-300 hover:border-toronto-300">
+                      <SelectValue placeholder="Filter by status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Statuses</SelectItem>
+                      {statuses.map((status) => (
+                        <SelectItem key={status} value={status}>
+                          {status}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
-              
-              <div>
-                <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Filter by category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <div>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Filter by status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Statuses</SelectItem>
-                    {statuses.map((status) => (
-                      <SelectItem key={status} value={status}>
-                        {status}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <Card key={project.id} className="overflow-hidden animated-card">
-                <div className="h-48 overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <CardHeader className="pb-2">
-                  <div className="flex justify-between items-start">
-                    <span className="inline-block px-3 py-1 text-xs font-medium bg-toronto-100 text-toronto-800 rounded-full">
-                      {project.category}
-                    </span>
-                    <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${
-                      project.status === "Active" 
-                        ? "bg-green-100 text-green-800" 
-                        : project.status === "Completed"
-                        ? "bg-blue-100 text-blue-800"
-                        : "bg-amber-100 text-amber-800"
-                    }`}>
-                      {project.status}
-                    </span>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredProjects.map((project) => (
+                <Card key={project.id} className="overflow-hidden group transition-all duration-300 hover:shadow-lg hover:-translate-y-2 hover:border-toronto-200">
+                  <div className="h-48 overflow-hidden">
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
                   </div>
-                  <CardTitle className="mt-2">{project.title}</CardTitle>
-                  <CardDescription className="flex items-center text-sm text-gray-500">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    {project.timeline}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-600 mb-4">{project.description}</p>
-                  
-                  <div className="mb-4">
-                    <div className="flex justify-between mb-1 text-sm">
-                      <span>Engagement progress</span>
-                      <span>{project.engagement.progress}%</span>
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-start">
+                      <span className="inline-block px-3 py-1 text-xs font-medium bg-toronto-100 text-toronto-800 rounded-full transition-colors hover:bg-toronto-200">
+                        {project.category}
+                      </span>
+                      <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full transition-colors ${
+                        project.status === "Active" 
+                          ? "bg-green-100 text-green-800 hover:bg-green-200" 
+                          : project.status === "Completed"
+                          ? "bg-blue-100 text-blue-800 hover:bg-blue-200"
+                          : "bg-amber-100 text-amber-800 hover:bg-amber-200"
+                      }`}>
+                        {project.status}
+                      </span>
                     </div>
-                    <Progress value={project.engagement.progress} className="h-2" />
-                  </div>
-                </CardContent>
-                <CardFooter className="flex justify-between items-center pt-0">
-                  <div className="flex space-x-4 text-sm text-gray-500">
-                    <div className="flex items-center">
-                      <MessageSquare className="mr-1 h-4 w-4" />
-                      <span>{project.engagement.comments}</span>
+                    <HoverCard>
+                      <HoverCardTrigger asChild>
+                        <CardTitle className="mt-2 cursor-pointer transition-colors hover:text-toronto-600">{project.title}</CardTitle>
+                      </HoverCardTrigger>
+                      <HoverCardContent className="w-80">
+                        <div className="flex justify-between space-x-4">
+                          <div>
+                            <h4 className="text-sm font-semibold">{project.title}</h4>
+                            <p className="text-sm text-gray-600 mt-1">{project.description}</p>
+                            <div className="flex items-center pt-2">
+                              <Info className="h-3 w-3 mr-1 text-toronto-500" />
+                              <span className="text-xs text-toronto-600">Click to view full project details</span>
+                            </div>
+                          </div>
+                        </div>
+                      </HoverCardContent>
+                    </HoverCard>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <CardDescription className="flex items-center text-sm text-gray-500 cursor-pointer hover:text-toronto-600 transition-colors">
+                          <Calendar className="h-4 w-4 mr-1" />
+                          {project.timeline}
+                        </CardDescription>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Project timeline</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600 mb-4">{project.description}</p>
+                    
+                    <div className="mb-4">
+                      <div className="flex justify-between mb-1 text-sm">
+                        <span>Engagement progress</span>
+                        <span>{project.engagement.progress}%</span>
+                      </div>
+                      <Progress value={project.engagement.progress} className="h-2 transition-all duration-500 hover:h-3" />
                     </div>
-                    <div className="flex items-center">
-                      <ThumbsUp className="mr-1 h-4 w-4" />
-                      <span>{project.engagement.votes}</span>
+                  </CardContent>
+                  <CardFooter className="flex justify-between items-center pt-0">
+                    <div className="flex space-x-4 text-sm text-gray-500">
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center cursor-pointer hover:text-toronto-600 transition-colors">
+                            <MessageSquare className="mr-1 h-4 w-4" />
+                            <span>{project.engagement.comments}</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{project.engagement.comments} comments</p>
+                        </TooltipContent>
+                      </Tooltip>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className="flex items-center cursor-pointer hover:text-toronto-600 transition-colors">
+                            <ThumbsUp className="mr-1 h-4 w-4" />
+                            <span>{project.engagement.votes}</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{project.engagement.votes} votes</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </div>
-                  </div>
-                  <Button asChild size="sm">
-                    <Link to={`/projects/${project.id}`}>View Project</Link>
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-          
-          {filteredProjects.length === 0 && (
-            <div className="text-center py-20">
-              <p className="text-lg text-gray-500">No projects found matching your search criteria.</p>
-              <Button 
-                variant="outline" 
-                className="mt-4"
-                onClick={() => {
-                  setSearchTerm("");
-                  setCategoryFilter("all");
-                  setStatusFilter("all");
-                }}
-              >
-                Clear Filters
-              </Button>
+                    <Button asChild size="sm" className="group">
+                      <Link to={`/projects/${project.id}`} className="flex items-center">
+                        View Project
+                        <ArrowRight className="ml-1 h-3 w-3 opacity-0 group-hover:opacity-100 group-hover:ml-2 transition-all duration-300" />
+                      </Link>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
             </div>
-          )}
+            
+            {filteredProjects.length === 0 && (
+              <div className="text-center py-20">
+                <p className="text-lg text-gray-500">No projects found matching your search criteria.</p>
+                <Button 
+                  variant="outline" 
+                  className="mt-4 transition-all duration-300 hover:bg-toronto-100"
+                  onClick={() => {
+                    setSearchTerm("");
+                    setCategoryFilter("all");
+                    setStatusFilter("all");
+                  }}
+                >
+                  Clear Filters
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </TooltipProvider>
     </Layout>
   );
 };
