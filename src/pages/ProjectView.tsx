@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -16,7 +17,12 @@ import {
   Image, 
   PieChart,
   ArrowLeft,
-  HelpCircle
+  HelpCircle,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Mail,
+  Copy
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -25,6 +31,14 @@ import ProjectTimeline from "@/components/project/ProjectTimeline";
 import ProjectDocuments from "@/components/project/ProjectDocuments";
 import ProjectGallery from "@/components/project/ProjectGallery";
 import ProjectSurvey from "@/components/project/ProjectSurvey";
+import { toast } from "@/hooks/use-toast";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Import the SurveyQuestion type to ensure consistency
 import type { SurveyQuestion } from "@/components/project/ProjectSurvey";
@@ -145,6 +159,45 @@ const ProjectView = () => {
       </Layout>
     );
   }
+
+  // Share project functionality
+  const handleShare = (platform: string) => {
+    const url = window.location.href;
+    const title = project.title;
+    const description = project.description.substring(0, 100) + "...";
+    
+    let shareUrl = "";
+    
+    switch (platform) {
+      case "facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+        break;
+      case "twitter":
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`;
+        break;
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+        break;
+      case "email":
+        shareUrl = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(description + "\n\n" + url)}`;
+        break;
+      case "copy":
+        navigator.clipboard.writeText(url).then(() => {
+          toast({
+            title: "Link Copied",
+            description: "Project link has been copied to clipboard",
+            duration: 3000,
+          });
+        });
+        return;
+      default:
+        break;
+    }
+    
+    if (shareUrl) {
+      window.open(shareUrl, "_blank", "noopener,noreferrer");
+    }
+  };
 
   return (
     <Layout>
@@ -351,10 +404,88 @@ const ProjectView = () => {
                     <HelpCircle className="h-4 w-4 mr-2" />
                     Ask a Question
                   </Button>
-                  <Button variant="outline" className="w-full">
-                    <Share2 className="h-4 w-4 mr-2" />
-                    Share Project
-                  </Button>
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="w-full">
+                        <Share2 className="h-4 w-4 mr-2" />
+                        Share Project
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                      <TooltipProvider>
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => handleShare("facebook")}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="flex items-center w-full">
+                                <Facebook className="h-4 w-4 mr-2 text-[#1877F2]" />
+                                Share on Facebook
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Share this project on Facebook</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </DropdownMenuItem>
+                        
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => handleShare("twitter")}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="flex items-center w-full">
+                                <Twitter className="h-4 w-4 mr-2 text-[#1DA1F2]" />
+                                Share on X
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Share this project on X (formerly Twitter)</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </DropdownMenuItem>
+                        
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => handleShare("linkedin")}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="flex items-center w-full">
+                                <Linkedin className="h-4 w-4 mr-2 text-[#0A66C2]" />
+                                Share on LinkedIn
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Share this project on LinkedIn</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </DropdownMenuItem>
+                        
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => handleShare("email")}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="flex items-center w-full">
+                                <Mail className="h-4 w-4 mr-2 text-gray-600" />
+                                Share via Email
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Share this project via email</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </DropdownMenuItem>
+                        
+                        <DropdownMenuItem className="cursor-pointer" onClick={() => handleShare("copy")}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span className="flex items-center w-full">
+                                <Copy className="h-4 w-4 mr-2 text-gray-600" />
+                                Copy Link
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Copy project link to clipboard</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </DropdownMenuItem>
+                      </TooltipProvider>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
                 
                 <Separator className="my-4" />
