@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -22,7 +21,8 @@ import {
   Twitter,
   Linkedin,
   Mail,
-  Copy
+  Copy,
+  Map
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -31,6 +31,7 @@ import ProjectTimeline from "@/components/project/ProjectTimeline";
 import ProjectDocuments from "@/components/project/ProjectDocuments";
 import ProjectGallery from "@/components/project/ProjectGallery";
 import ProjectSurvey from "@/components/project/ProjectSurvey";
+import ProjectLocation from "@/components/project/ProjectLocation";
 import { toast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
@@ -53,6 +54,7 @@ const projectsData = [
     category: "Urban Planning",
     status: "Active",
     location: "Downtown Harbor District",
+    mapCoordinates: { lat: 43.6532, lng: -79.3832 }, // Adding map coordinates for Toronto harbor area
     timeline: "2023-2025",
     coordinator: "Urban Development Department",
     budget: "$24.5 million",
@@ -292,6 +294,9 @@ const ProjectView = () => {
                     <TabsTrigger value="documents" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-toronto-600 rounded-none h-11">
                       Documents
                     </TabsTrigger>
+                    <TabsTrigger value="location" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-toronto-600 rounded-none h-11">
+                      Location
+                    </TabsTrigger>
                     <TabsTrigger value="gallery" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-toronto-600 rounded-none h-11">
                       Gallery
                     </TabsTrigger>
@@ -368,6 +373,14 @@ const ProjectView = () => {
                   
                   <TabsContent value="documents" className="p-6">
                     <ProjectDocuments documents={project.documents} />
+                  </TabsContent>
+                  
+                  <TabsContent value="location" className="p-6">
+                    <ProjectLocation 
+                      location={project.location} 
+                      coordinates={project.mapCoordinates} 
+                      title={project.title}
+                    />
                   </TabsContent>
                   
                   <TabsContent value="gallery" className="p-6">
@@ -503,45 +516,6 @@ const ProjectView = () => {
                     </Button>
                   </div>
                 </div>
-              </div>
-              
-              {/* Quick links */}
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h3 className="font-semibold mb-3">Quick Links</h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Button variant="ghost" className="w-full justify-start" asChild>
-                      <a href="#" className="text-left">
-                        <FileText className="h-4 w-4 mr-2" />
-                        Project FAQ
-                      </a>
-                    </Button>
-                  </li>
-                  <li>
-                    <Button variant="ghost" className="w-full justify-start" asChild>
-                      <a href="#" className="text-left">
-                        <PieChart className="h-4 w-4 mr-2" />
-                        Survey Results
-                      </a>
-                    </Button>
-                  </li>
-                  <li>
-                    <Button variant="ghost" className="w-full justify-start" asChild>
-                      <a href="#" className="text-left">
-                        <Image className="h-4 w-4 mr-2" />
-                        View Before/After
-                      </a>
-                    </Button>
-                  </li>
-                  <li>
-                    <Button variant="ghost" className="w-full justify-start" asChild>
-                      <a href="#" className="text-left">
-                        <MapPin className="h-4 w-4 mr-2" />
-                        View on Map
-                      </a>
-                    </Button>
-                  </li>
-                </ul>
               </div>
             </div>
           </div>
