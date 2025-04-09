@@ -37,6 +37,29 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
     );
   };
 
+  // Default gallery images if none are provided
+  const defaultGallery = [
+    {
+      title: "Project Overview",
+      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      title: "Community Meeting",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      title: "Project Site",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      title: "Design Concept",
+      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    }
+  ];
+
+  // Use provided gallery or default if empty
+  const displayGallery = gallery && gallery.length > 0 ? gallery : defaultGallery;
+
   return (
     <div>
       <div className="flex items-center mb-6">
@@ -48,17 +71,22 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
         View images of the project area, design concepts, and progress photos.
       </p>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-        {gallery.map((item, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {displayGallery.map((item, index) => (
           <div 
             key={index} 
-            className="cursor-pointer rounded-lg overflow-hidden group relative"
+            className="cursor-pointer rounded-lg overflow-hidden group relative shadow-sm border border-gray-100"
             onClick={() => openLightbox(index)}
           >
             <img 
               src={item.image} 
               alt={item.title} 
               className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+              }}
             />
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-end">
               <div className="p-4 w-full text-white transform translate-y-8 group-hover:translate-y-0 transition-transform">
@@ -84,9 +112,14 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
             
             <div className="relative">
               <img 
-                src={gallery[currentImageIndex].image} 
-                alt={gallery[currentImageIndex].title} 
+                src={displayGallery[currentImageIndex].image} 
+                alt={displayGallery[currentImageIndex].title} 
                 className="max-h-[80vh] mx-auto rounded-lg"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.onerror = null;
+                  target.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+                }}
               />
               
               <Button 
@@ -110,10 +143,10 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
             
             <div className="text-center text-white mt-4">
               <h3 className="text-xl font-medium">
-                {gallery[currentImageIndex].title}
+                {displayGallery[currentImageIndex].title}
               </h3>
               <p className="text-gray-300 mt-1">
-                {currentImageIndex + 1} of {gallery.length}
+                {currentImageIndex + 1} of {displayGallery.length}
               </p>
             </div>
           </div>
