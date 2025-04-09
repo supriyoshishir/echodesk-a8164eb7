@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { ArrowRight, MessageSquare, ThumbsUp, Calendar, Info } from "lucide-react";
+import { ArrowRight, MessageSquare, ThumbsUp, Calendar, Info, ChevronDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { 
   Tooltip, 
@@ -170,6 +170,21 @@ const ProjectsShowcase = () => {
                 </div>
               </div>
             ))}
+          </div>
+          
+          {/* View More Projects Button */}
+          <div className="flex justify-center mt-12">
+            <Button 
+              asChild 
+              variant="outline" 
+              size="lg" 
+              className="group transition-all duration-300 hover:bg-toronto-100"
+            >
+              <Link to="/projects" className="flex items-center">
+                <span className="mr-2">View More Projects</span>
+                <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-1" />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>

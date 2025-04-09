@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
@@ -26,7 +27,8 @@ import {
   Filter,
   ArrowRight,
   Info,
-  ExternalLink 
+  ExternalLink,
+  ChevronDown 
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { 
@@ -132,6 +134,7 @@ const Projects = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [visibleProjects, setVisibleProjects] = useState(3); // Start with 3 projects visible
 
   const filteredProjects = projectsData.filter((project) => {
     const matchesSearch = project.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -142,6 +145,14 @@ const Projects = () => {
     
     return matchesSearch && matchesCategory && matchesStatus;
   });
+
+  // Get only the current number of visible projects
+  const displayedProjects = filteredProjects.slice(0, visibleProjects);
+
+  // Function to load more projects
+  const handleViewMore = () => {
+    setVisibleProjects(prev => prev + 3); // Show 3 more projects
+  };
 
   const categories = [...new Set(projectsData.map(project => project.category))];
   const statuses = [...new Set(projectsData.map(project => project.status))];
@@ -207,7 +218,7 @@ const Projects = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredProjects.map((project) => (
+              {displayedProjects.map((project) => (
                 <Card key={project.id} className="overflow-hidden group transition-all duration-300 hover:shadow-lg hover:-translate-y-2 hover:border-toronto-200">
                   <div className="h-48 overflow-hidden">
                     <img 
@@ -320,6 +331,21 @@ const Projects = () => {
                   }}
                 >
                   Clear Filters
+                </Button>
+              </div>
+            )}
+            
+            {/* View More Button */}
+            {filteredProjects.length > visibleProjects && (
+              <div className="flex justify-center mt-10">
+                <Button 
+                  onClick={handleViewMore}
+                  variant="outline" 
+                  className="group transition-all duration-300 hover:bg-toronto-100"
+                  size="lg"
+                >
+                  <span className="mr-2">View More Projects</span>
+                  <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:translate-y-1" />
                 </Button>
               </div>
             )}
