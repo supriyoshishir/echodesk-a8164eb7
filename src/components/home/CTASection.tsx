@@ -11,7 +11,7 @@ const CTASection = () => {
             Ready to Transform Your Community Engagement?
           </h2>
           <p className="text-xl mb-8 text-gray-100 max-w-3xl mx-auto">
-            Join municipalities across Canada that are using Urban Engage Hub to connect with their citizens and make better decisions together.
+            Join municipalities across Canada that are using EchoDesk to connect with their citizens and make better decisions together.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" className="text-lg py-6 px-8 bg-white text-toronto-800 hover:bg-gray-100">

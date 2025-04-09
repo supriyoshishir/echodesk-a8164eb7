@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
@@ -21,8 +20,8 @@ const Navbar = () => {
     <nav className="bg-white shadow-sm py-4 sticky top-0 z-50">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
-          <span className="bg-toronto-600 text-white p-2 rounded-md font-bold">UEH</span>
-          <span className="font-semibold text-xl hidden sm:inline-block">Urban Engage Hub</span>
+          <span className="bg-toronto-600 text-white p-2 rounded-md font-bold">ED</span>
+          <span className="font-semibold text-xl hidden sm:inline-block">EchoDesk</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -31,7 +30,7 @@ const HowItWorks = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            How Urban Engage Hub Works
+            How EchoDesk Works
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             A simple process to transform how you connect with your community

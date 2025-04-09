@@ -1,4 +1,3 @@
-
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +10,7 @@ import { Quote } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "Urban Engage Hub transformed how we interact with our residents. The platform helped us collect valuable feedback that shaped our downtown revitalization project.",
+    quote: "EchoDesk transformed how we interact with our residents. The platform helped us collect valuable feedback that shaped our downtown revitalization project.",
     author: "Sarah Johnson",
     title: "Urban Planning Director, City of Vancouver"
   },
