@@ -4,7 +4,6 @@ import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Progress } from "@/components/ui/progress";
 import { 
   Calendar, 
   MapPin, 
@@ -251,33 +250,6 @@ const ProjectView = () => {
               Back to Projects
             </Link>
           </Button>
-
-          {/* Engagement progress */}
-          <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-            <div className="flex flex-col md:flex-row md:items-center justify-between mb-2">
-              <h3 className="font-medium text-gray-700">Community Engagement</h3>
-              <div className="flex items-center text-sm text-gray-500 space-x-4">
-                <div className="flex items-center">
-                  <Users className="h-4 w-4 mr-1" />
-                  <span>{project.engagement.participants} Participants</span>
-                </div>
-                <div className="flex items-center">
-                  <MessageSquare className="h-4 w-4 mr-1" />
-                  <span>{project.engagement.comments} Comments</span>
-                </div>
-                <div className="flex items-center">
-                  <ThumbsUp className="h-4 w-4 mr-1" />
-                  <span>{project.engagement.votes} Votes</span>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="flex-grow mr-4">
-                <Progress value={project.engagement.progress} className="h-2" />
-              </div>
-              <span className="text-sm font-medium">{project.engagement.progress}%</span>
-            </div>
-          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main content */}
