@@ -27,17 +27,17 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
   
   const goToPrevious = () => {
     setCurrentImageIndex((prevIndex) => 
-      prevIndex === 0 ? gallery.length - 1 : prevIndex - 1
+      prevIndex === 0 ? displayGallery.length - 1 : prevIndex - 1
     );
   };
   
   const goToNext = () => {
     setCurrentImageIndex((prevIndex) => 
-      prevIndex === gallery.length - 1 ? 0 : prevIndex + 1
+      prevIndex === displayGallery.length - 1 ? 0 : prevIndex + 1
     );
   };
 
-  // Default gallery images if none are provided
+  // Comprehensive default gallery images if none are provided
   const defaultGallery = [
     {
       title: "Project Overview",
@@ -54,8 +54,31 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
     {
       title: "Design Concept",
       image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      title: "Team Planning Session",
+      image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      title: "Development Workshop",
+      image: "https://images.unsplash.com/photo-1552581234-26160f608093?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      title: "Urban Planning Overview",
+      image: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2113&q=80"
+    },
+    {
+      title: "Technology Integration",
+      image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+    },
+    {
+      title: "Sustainability Focus",
+      image: "https://images.unsplash.com/photo-1501084817091-a4f3d1d19e07?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
     }
   ];
+
+  // Fallback image if an image fails to load
+  const fallbackImage = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
 
   // Use provided gallery or default if empty
   const displayGallery = gallery && gallery.length > 0 ? gallery : defaultGallery;
@@ -75,7 +98,7 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
         {displayGallery.map((item, index) => (
           <div 
             key={index} 
-            className="cursor-pointer rounded-lg overflow-hidden group relative shadow-sm border border-gray-100"
+            className="cursor-pointer rounded-lg overflow-hidden group relative shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300"
             onClick={() => openLightbox(index)}
           >
             <img 
@@ -85,7 +108,7 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.onerror = null;
-                target.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+                target.src = fallbackImage;
               }}
             />
             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all flex items-end">
@@ -118,7 +141,7 @@ const ProjectGallery = ({ gallery }: ProjectGalleryProps) => {
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.onerror = null;
-                  target.src = "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80";
+                  target.src = fallbackImage;
                 }}
               />
               
